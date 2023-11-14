@@ -1,6 +1,10 @@
+using Core.Entities;
+using Infrastructure.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -24,6 +28,19 @@ namespace GeneratorShop
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddDbContext<ApplicationDbContext>(options =>
+               options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddIdentity<DbUser, DbRole>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+                options.Password.RequiredLength = 8;
+                options.Password.RequireDigit = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+            }).AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
