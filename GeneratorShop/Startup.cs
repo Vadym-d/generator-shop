@@ -1,5 +1,7 @@
 using Core.Entities;
 using Infrastructure.Data;
+using Infrastructure.Repositories.Implements;
+using Infrastructure.Repositories.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -41,6 +43,8 @@ namespace GeneratorShop
                 options.Password.RequireUppercase = false;
                 options.Password.RequireLowercase = false;
             }).AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+
+            services.AddTransient<IGeneratorRepository, GeneratorRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -69,6 +73,8 @@ namespace GeneratorShop
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            SeederDB.SeedData(app.ApplicationServices);
         }
     }
 }

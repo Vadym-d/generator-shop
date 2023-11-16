@@ -1,4 +1,5 @@
 ﻿using GeneratorShop.Models;
+using Infrastructure.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -12,14 +13,17 @@ namespace GeneratorShop.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IGeneratorRepository _generatorRepository;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IGeneratorRepository generatorRepository)
         {
             _logger = logger;
+            _generatorRepository = generatorRepository;
         }
 
         public IActionResult Index()
         {
+            var generators=_generatorRepository.GetAll();
             return View();
         }
 

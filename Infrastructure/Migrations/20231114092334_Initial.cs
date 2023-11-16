@@ -272,7 +272,7 @@ namespace Infrastructure.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     GeneratorId = table.Column<int>(type: "integer", nullable: false),
                     OrderId = table.Column<int>(type: "integer", nullable: false),
-                    TotalPrice = table.Column<double>(type: "double precision", nullable: false),
+                    Price = table.Column<double>(type: "double precision", nullable: false),
                     Quantity = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>

@@ -167,8 +167,8 @@ namespace Infrastructure.Migrations
                         .HasColumnType("integer")
                         .UseIdentityByDefaultColumn();
 
-                    b.Property<string>("Description")
-                        .HasColumnType("text");
+                    b.Property<double>("FuelConsuming")
+                        .HasColumnType("double precision");
 
                     b.Property<int>("GenratorCategoryId")
                         .HasColumnType("integer");
@@ -179,10 +179,16 @@ namespace Infrastructure.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
+                    b.Property<double>("Power")
+                        .HasColumnType("double precision");
+
                     b.Property<double>("PowerOutput")
                         .HasColumnType("double precision");
 
                     b.Property<double>("Price")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("Tank")
                         .HasColumnType("double precision");
 
                     b.Property<double>("Weight")
@@ -257,7 +263,7 @@ namespace Infrastructure.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
 
-                    b.Property<double>("TotalPrice")
+                    b.Property<double>("Price")
                         .HasColumnType("double precision");
 
                     b.HasKey("Id");

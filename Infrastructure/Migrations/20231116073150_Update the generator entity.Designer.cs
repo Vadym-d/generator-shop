@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231114092334_Initial")]
-    partial class Initial
+    [Migration("20231116073150_Update the generator entity")]
+    partial class Updatethegeneratorentity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -169,8 +169,8 @@ namespace Infrastructure.Migrations
                         .HasColumnType("integer")
                         .UseIdentityByDefaultColumn();
 
-                    b.Property<string>("Description")
-                        .HasColumnType("text");
+                    b.Property<double>("FuelConsuming")
+                        .HasColumnType("double precision");
 
                     b.Property<int>("GenratorCategoryId")
                         .HasColumnType("integer");
@@ -181,10 +181,16 @@ namespace Infrastructure.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
+                    b.Property<double>("Power")
+                        .HasColumnType("double precision");
+
                     b.Property<double>("PowerOutput")
                         .HasColumnType("double precision");
 
                     b.Property<double>("Price")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("Tank")
                         .HasColumnType("double precision");
 
                     b.Property<double>("Weight")

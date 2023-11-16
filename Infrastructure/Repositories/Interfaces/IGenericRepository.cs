@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories.Interfaces
 {
-    interface IGenericRepository<TEntity> where TEntity : class
+    public interface IGenericRepository<TEntity> where TEntity : class
     {
         TEntity FindById(int id);
         IEnumerable<TEntity> GetAll();
