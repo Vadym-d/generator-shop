@@ -1,4 +1,6 @@
+using AutoMapper;
 using Core.Entities;
+using Core.mappers;
 using Infrastructure.Data;
 using Infrastructure.Repositories.Implements;
 using Infrastructure.Repositories.Interfaces;
@@ -45,6 +47,8 @@ namespace GeneratorShop
             }).AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 
             services.AddTransient<IGeneratorRepository, GeneratorRepository>();
+
+            services.AddAutoMapper(typeof(Startup), typeof(MapperConfig));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
