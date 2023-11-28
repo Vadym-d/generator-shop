@@ -30,7 +30,7 @@ namespace GeneratorShop.Controllers
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByEmailAsync(model.Email);
-                var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
+                var result = await _signInManager.PasswordSignInAsync(user, model.Password, true, false);
 
                 if (result.Succeeded)
                 {
@@ -71,7 +71,7 @@ namespace GeneratorShop.Controllers
                 if (result.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(user, "User");
-                    await _signInManager.SignInAsync(user, false);
+                    await _signInManager.SignInAsync(user, true);
 
                     return Redirect(model.ReturnUrl);
                 }
