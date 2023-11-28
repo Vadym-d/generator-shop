@@ -24,7 +24,7 @@ namespace GeneratorShop.Controllers
         public IActionResult Index()
         {
             var generators=_generatorRepository.GetAll();
-            return View();
+            return View(generators);
         }
 
         public IActionResult Privacy()
