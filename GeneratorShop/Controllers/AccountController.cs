@@ -30,17 +30,27 @@ namespace GeneratorShop.Controllers
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByEmailAsync(model.Email);
-                var result = await _signInManager.PasswordSignInAsync(user, model.Password, true, false);
 
-                if (result.Succeeded)
+                if (user != null)
                 {
-                    if (model.ReturnUrl == null)
-                        return RedirectToAction("Index", "Home");
+                    var result = await _signInManager.PasswordSignInAsync(user, model.Password, true, false);
 
-                    return Redirect(model.ReturnUrl);
+                    if (result.Succeeded)
+                    {
+                        if (model.ReturnUrl == null)
+                            return RedirectToAction("Index", "Home");
+
+                        return Redirect(model.ReturnUrl);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("Password", "Invalid login attempt. Please check your email and password.");
+                    }
                 }
-
-                ModelState.AddModelError("", "Oooops some errors");
+                else
+                {
+                    ModelState.AddModelError("Password", "User not found. Please check your email and try again.");
+                }
             }
 
             return View(model);

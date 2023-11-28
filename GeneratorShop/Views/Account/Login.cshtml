@@ -1,23 +1,47 @@
 ﻿@model GeneratorShop.Models.LoginViewModel;
 
-<h2>Login</h2>
-<div class="row">
-    <div class="col-md-4">
-        <form asp-controller="Account" asp-action="Login" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Email"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
+<link href="/css/signInForm.css" rel="stylesheet" />
+
+<div class="container d-flex justify-content-center align-items-center" style="margin-top: 10%;">
+    <div class="card">
+        <div class="p-3 border-bottom d-flex align-items-center justify-content-center">
+            <h5>Login to HexGig</h5>
+        </div>
+        <div class="p-3 px-4 py-4 border-bottom">
+            <form asp-controller="Account" asp-action="Login" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
+                <div class="form-group">
+                    <label asp-for="Email"></label>
+                    <input asp-for="Email" placeholder="Email" class="form-control"/>
+                    <span asp-validation-for="Email"  class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password"></label>
+                    <div class="form">
+                    <input asp-for="Password" placeholder="Password" class="form-control" />
+                        <a href="#">Forgot?</a>
+                    </div>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <button class="btn btn-danger btn-block continue">Login</button>
+            </form>
+
+            <div class="d-flex justify-content-center align-items-center mt-3 mb-3">
+                <span class="line"></span>
+                <small class="px-2 line-text">OR</small>
+                <span class="line"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Password"></label>
-                <input asp-for="Password" type="password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Login</button>
-            </div>
-        </form>
+            <button class="btn btn-danger btn-block continue facebook-button d-flex justify-content-start align-items-center">
+                <i class="fab fa-facebook-square ml-2"></i>
+                <span class="ml-5 px-4">Continue with Facebook</span>
+            </button>
+            <button class="btn btn-danger btn-block continue google-button d-flex justify-content-start align-items-center">
+                <i class="fab fa-google ml-2"></i>
+                <span class="ml-5 px-4">Continue with Google</span>
+            </button>
+        </div>
+        <div class="p-3 d-flex flex-row justify-content-center align-items-center member">
+            <span>Not a member? </span>
+            <a href="/account/register" class="text-decoration-none ml-2">SIGNUP</a>
+        </div>
     </div>
 </div>
