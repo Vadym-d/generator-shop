@@ -1,0 +1,6 @@
+﻿@media (min-width: 992px) {
+    .col-lg-8 {
+        flex: auto;
+        max-width: max-content;
+    }
+}

@@ -1,8 +1,76 @@
-﻿@{
+﻿@model IEnumerable<Core.Entities.Generator>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container">
+    <div class="row">
+        @foreach (var generator in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="@generator.ImageUrl" class="card-img-top" alt="Generator Image">
+                    <div class="card-body">
+                        <h5 class="card-title">@generator.Name</h5>
+                        <p class="card-text">Id: @generator.Id</p>
+                        <p class="card-text">Price: $@generator.Price</p>
+                        <button id="addToBasketButton-@generator.Id" class="btn btn-primary"
+                                onclick="addToBasket('@generator.Id', '@generator.Name', '@generator.ImageUrl', @generator.Price, '@generator.GenratorCategory?.Category')">
+                            Add to Basket
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        let storedBasketItems = JSON.parse(localStorage.getItem('basket'));
+        console.log(storedBasketItems)
+
+        if (storedBasketItems) {
+            storedBasketItems.forEach((generator)=> {
+                console.log(generator)
+                updateButton(generator.id);
+            });
+        }
+    });
+
+    function addToBasket(generatorId, generatorName, imageUrl, price, brand) {
+        var itemDetails = {
+            id: generatorId,
+            name: generatorName,
+            image: imageUrl,
+            price: price,
+            brand: brand
+        };
+
+        let basketItems = JSON.parse(localStorage.getItem('basket')) || [];
+
+        let existingItem = basketItems.find(item => item.id === generatorId);
+
+        if (!existingItem) {
+            basketItems.push(itemDetails);
+
+            localStorage.setItem('basket', JSON.stringify(basketItems));
+
+            console.log('Added to basket: ' + generatorName);
+
+            updateButton(generatorId);
+        }
+    }
+
+    function updateButton(generatorId) {
+        console.log(generatorId)
+        let button = document.getElementById('addToBasketButton-' + generatorId);
+        console.log(button)
+
+        if (button) {
+            button.innerText ='In the Cart';
+            button.disabled = true; 
+        }
+    }
+</script>
