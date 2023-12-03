@@ -57,14 +57,11 @@
 
             localStorage.setItem('basket', JSON.stringify(basketItems));
 
-            console.log('Added to basket: ' + generatorName);
-
             updateButton(generatorId);
         }
     }
 
     function updateButton(generatorId) {
-        console.log(generatorId)
         let button = document.getElementById('addToBasketButton-' + generatorId);
         console.log(button)
 
