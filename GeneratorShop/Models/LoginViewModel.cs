@@ -4,10 +4,11 @@ namespace GeneratorShop.Models
 {
     public class LoginViewModel
     {
-        [Required(ErrorMessage = "Email is required")]
-        [EmailAddress(ErrorMessage = "Invalid email address")]
+        [Required(ErrorMessage = "Пошта обов'язкова!")]
+        [EmailAddress(ErrorMessage = "Не правильнгий формат адреси")]
         public string Email { get; set; }
-        [Required(ErrorMessage = "Password is required")]
+        [Required(ErrorMessage = "Пароль обов'язковий!")]
+        [MinLength(8, ErrorMessage = "Пароль не може бути менший за 8 символів!")]
         public string Password { get; set; }
         public string ReturnUrl { get; set; }
     }

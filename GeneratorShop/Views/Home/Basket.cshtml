@@ -10,8 +10,8 @@
                             <div class="col-lg-8">
                                 <div class="p-5">
                                     <div class="d-flex justify-content-between align-items-center mb-5">
-                                        <h1 class="fw-bold mb-0 text-black">Shopping Cart</h1>
-                                        <h6 class="mb-0 text-muted">3 items</h6>
+                                        <h1 class="fw-bold mb-0 text-black">Корзина</h1>
+                                        <h6 class="mb-0 text-muted">3 товари</h6>
                                     </div>
                                     <hr class="my-4">
                                     <div id="shopping-items">
@@ -20,11 +20,11 @@
                                     <div class="pt-5 row d-flex justify-content-between align-items-center">
                                         <h6 class="mb-0">
                                             <a href="/" class="text-body">
-                                                <i class="fas fa-long-arrow-alt-left me-2"></i> Back to shop
+                                                <i class="fas fa-long-arrow-alt-left me-2"></i> Повернутись до генераторів
                                             </a>
                                         </h6>
                                         <div id="total-price" class="text-end">₴ 122</div>
-                                        <button class="btn btn-primary">Checkout</button>
+                                        <button class="btn btn-primary">Оформити замовлення</button>
                                     </div>
                                 </div>
                             </div>
@@ -38,7 +38,7 @@
 
 <div class="empty-cart-message">
     <img src="/img/4440881-200.png" alt="No items image" />
-    <h1>No items</h1>
+    <h1>Ваша корзина пуста(</h1>
 </div>
 
 <script>
@@ -134,9 +134,9 @@
             });
 
             let totalPrice = basketItems.reduce((acc, item) => acc + item.price, 0);
-            document.querySelector("#total-price").textContent = `Total Price: ₴ ${totalPrice}`;
+            document.querySelector("#total-price").textContent = `Загальна ціна: ₴ ${totalPrice}`;
 
-            document.querySelector(".text-muted").textContent = `${basketItems.length} items`;
+            document.querySelector(".text-muted").textContent = `${basketItems.length} товари`;
         }
         else {
             document.getElementById("basket").style.display = "none";
