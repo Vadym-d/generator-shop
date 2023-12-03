@@ -1,6 +1,6 @@
 ﻿<link href="/css/basket.css" rel="stylesheet" />
 
-<section class="h-100 h-custom">
+<section class="h-100 h-custom" id="basket">
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-12">
@@ -15,8 +15,6 @@
                                     </div>
                                     <hr class="my-4">
                                     <div id="shopping-items">
-
-                                        
                                     </div>
 
                                     <div class="pt-5 row d-flex justify-content-between align-items-center">
@@ -38,42 +36,99 @@
     </div>
 </section>
 
-<!-- Add this script at the end of your HTML body -->
+<div class="empty-cart-message">
+    <img src="/img/4440881-200.png" alt="No items image" />
+    <h1>No items</h1>
+</div>
+
 <script>
+    let basketItems = JSON.parse(localStorage.getItem('basket')) || [];
+
+    function adjustQuantity(button, increment) {
+        let input = button.parentNode.querySelector('input[type=number]');
+        let currentValue = parseInt(input.value);
+        let newValue = currentValue + increment;
+
+        if (newValue >= 1 && newValue <= 10) {
+            input.value = newValue;
+            updateTotalPrice(input);
+        }
+    }
+
+    function clearCartItem(id) {
+        console.log(id)
+        console.log(basketItems)
+        const indexToRemove = basketItems.findIndex(item => item.id == id);
+        console.log(indexToRemove)
+        if (indexToRemove !== -1) {
+            basketItems.splice(indexToRemove, 1);
+            console.log(basketItems)
+
+            localStorage.setItem('basket', JSON.stringify(basketItems));
+
+            location.reload();
+        }
+    }
+
+    function updateTotalPrice(input) {
+        let row = input.closest('.row');
+
+        let priceElement = row.querySelector('.col-md-3.col-lg-2.col-xl-2.offset-lg-1 h6');
+        let price = row.querySelector('.col-md-3.col-lg-2.col-xl-2.offset-lg-1 input').value;
+
+        let quantity = parseInt(input.value);
+
+        let newTotalPrice = price * quantity;
+
+        let totalPriceElement = row.querySelector('.col-md-3.col-lg-2.col-xl-2.offset-lg-1 h6');
+        totalPriceElement.textContent = `₴ ${newTotalPrice}`;
+
+        updateTotalPriceForAllItems();
+    }
+
+    function updateTotalPriceForAllItems() {
+        let prices = document.querySelectorAll("div.col-md-3.col-lg-2.col-xl-2.offset-lg-1 > h6");
+        let totalPrice = 0;
+
+        prices.forEach(price => {
+            totalPrice += parseFloat(price.textContent.split('₴')[1].trim());
+        });
+
+        document.querySelector("#total-price").textContent = `Total Price: ₴ ${totalPrice}`;
+    }
     document.addEventListener("DOMContentLoaded", () => {
-        let basketItems = JSON.parse(localStorage.getItem('basket')) || [];
 
+        let itemsContainer = document.getElementById("shopping-items");
         if (basketItems.length > 0) {
-            let itemsContainer = document.getElementById("shopping-items");
-
             basketItems.forEach(item => {
                 let newItemHtml = `
-                        <div class="row mb-4 d-flex justify-content-between align-items-center">
-                            <div class="col-md-2 col-lg-2 col-xl-2">
-                                <img src="${item.image}" class="img-fluid rounded-3" alt="${item.name}">
-                            </div>
-                            <div class="col-md-3 col-lg-3 col-xl-3">
-                                <h6 class="text-muted">${item.brand}</h6>
-                                <h6 class="text-black mb-0">${item.name}</h6>
-                            </div>
-                            <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                                <button class="btn btn-link px-2" onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                                    <i class="fas fa-minus"></i>
-                                </button>
-                                <input min="0" name="quantity" value="1" type="number" class="form-control form-control-sm" />
-                                <button class="btn btn-link px-2" onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                                    <i class="fas fa-plus"></i>
-                                </button>
-                            </div>
-                            <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                                <h6 class="mb-0">₴ ${item.price}</h6>
-                            </div>
-                            <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                                <a href="#!" class="text-muted"><i class="fas fa-times"></i></a>
-                            </div>
-                        </div>
-                        <hr class="my-4">
-                    `;
+                                            <div class="row mb-4 d-flex justify-content-between align-items-center">
+                                                <div class="col-md-2 col-lg-2 col-xl-2">
+                                                    <img src="${item.image}" class="img-fluid rounded-3" alt="${item.name}">
+                                                </div>
+                                                <div class="col-md-3 col-lg-3 col-xl-3">
+                                                    <h6 class="text-muted">${item.brand}</h6>
+                                                    <h6 class="text-black mb-0">${item.name}</h6>
+                                                </div>
+                                                <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                                                    <button class="btn btn-link px-2" onclick="adjustQuantity(this, -1)">
+                                                        <i class="fas fa-minus"></i>
+                                                    </button>
+                                                    <input min="1" max="10" name="quantity" value="1" type="number" class="form-control form-control-sm" oninput="updateTotalPrice(this)" />
+                                                    <button class="btn btn-link px-2" onclick="adjustQuantity(this, 1)">
+                                                        <i class="fas fa-plus"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                                                    <h6 class="mb-0">₴ ${item.price}</h6>
+                                                    <input type="hidden" value="${item.price}"/>
+                                                </div>
+                                                <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                                                    <a onclick="clearCartItem(${item.id})" style="cursor:pointer" class="text-muted"><i class="fas fa-times"></i></a>
+                                                </div>
+                                            </div>
+                                            <hr class="my-4">
+                                        `;
 
                 itemsContainer.innerHTML += newItemHtml;
             });
@@ -82,6 +137,10 @@
             document.querySelector("#total-price").textContent = `Total Price: ₴ ${totalPrice}`;
 
             document.querySelector(".text-muted").textContent = `${basketItems.length} items`;
+        }
+        else {
+            document.getElementById("basket").style.display = "none";
+            document.querySelector(".empty-cart-message").style.display = "block";
         }
     });
 </script>
