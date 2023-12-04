@@ -29,17 +29,8 @@
                     <ul class="navbar-nav">
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Welcome, @User.Identity.Name!
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="#">My Profile</a>
-                                    <form id="logoutForm" asp-controller="Account" asp-action="Logout" method="post">
-                                        <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
-                                        <button type="submit" class="dropdown-item" href="#">Logout</button>
-                                    </form>
-                                </div>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="/Account/UserManagment"><i class="fas fa-user-circle mr-2"></i>Мій профіль</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" href="/home/basket">
