@@ -14,10 +14,10 @@
                     <div class="card-body">
                         <h5 class="card-title">@generator.Name</h5>
                         <p class="card-text">Id: @generator.Id</p>
-                        <p class="card-text">Price: $@generator.Price</p>
+                        <p class="card-text">Ціна: $@generator.Price</p>
                         <button id="addToBasketButton-@generator.Id" class="btn btn-primary"
                                 onclick="addToBasket('@generator.Id', '@generator.Name', '@generator.ImageUrl', @generator.Price, '@generator.GenratorCategory?.Category')">
-                            Add to Basket
+                            Додати в корзину
                         </button>
                     </div>
                 </div>
@@ -57,19 +57,16 @@
 
             localStorage.setItem('basket', JSON.stringify(basketItems));
 
-            console.log('Added to basket: ' + generatorName);
-
             updateButton(generatorId);
         }
     }
 
     function updateButton(generatorId) {
-        console.log(generatorId)
         let button = document.getElementById('addToBasketButton-' + generatorId);
         console.log(button)
 
         if (button) {
-            button.innerText ='In the Cart';
+            button.innerText ='В корзині';
             button.disabled = true; 
         }
     }

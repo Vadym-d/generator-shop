@@ -1,0 +1,57 @@
+﻿@model GeneratorShop.Models.EditUserViewModel;
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h3>Ваш профіль</h3>
+                </div>
+                <div class="card-body">
+
+                    <!-- Change Email and Phone Form -->
+                    <form method="post" asp-controller="Account" asp-action="ChangeProfile">
+                        <div class="form-group">
+                            <label asp-for="Email">Ваша пошта:</label>
+                            <input type="email" class="form-control" asp-for="Email" placeholder="Вкажіть нову пошту">
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Phone">Новий телефон:</label>
+                            <input asp-for="Phone" class="form-control" placeholder="Вкажіть новий номер телефону">
+                            <span asp-validation-for="Phone" class="text-danger"></span>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Змінити пошту та телефон</button>
+                        </div>
+                    </form>
+
+                    <form class="mt-3" method="post" asp-controller="Account" asp-action="ChangePassword">
+                        <div class="form-group">
+                            <label asp-for="Password">Старий пароль:</label>
+                            <input asp-for="Password" type="password" class="form-control" placeholder="Введіть старий пароль">
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="NewPassword">Новий пароль:</label>
+                            <input asp-for="NewPassword" type="password" class="form-control" placeholder="Введіть новий пароль">
+                            <span asp-validation-for="NewPassword" class="text-danger"></span>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Змінити пароль</button>
+                        </div>
+                    </form>
+
+                    <hr class="my-4">
+                    <div class="text-center">
+                        <a href="/my-orders" class="btn btn-link">Мої замовлення</a>
+                    </div>
+
+                    <form id="logoutForm" asp-controller="Account" asp-action="Logout" method="post" class="text-center">
+                        <button type="submit" class="btn btn-danger">Вийти</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
