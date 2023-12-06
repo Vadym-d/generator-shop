@@ -1,0 +1,58 @@
+﻿@model Core.Entities.Generator
+
+@{
+    ViewData["Title"] = "Product Details";
+}
+
+<div>
+    <img src="@Model.ImageUrl" alt="Product Image" style="float: left; margin-right: 20px;">
+    <h2>@Model.Name</h2>
+    <p>ID: @Model.Id</p>
+    <p>Price: $@Model.Price</p>
+    <p>Power: @Model.Power</p>
+    <p>Power Output: @Model.PowerOutput</p>
+    <p>Fuel Consuming: @Model.FuelConsuming</p>
+    <p>Tank: @Model.Tank</p>
+    <p>Weight: @Model.Weight</p>
+    <p>Fuel: @Model.GenratorCategory?.Category </p>
+    <button id="addToBasketButton- @Model.Id" class="btn btn-primary"
+            onclick="addToBasket(' @Model.Id', ' @Model.Name', ' @Model.ImageUrl',  @Model.Price, ' @Model.GenratorCategory?.Category')">
+        Add to Basket
+    </button>
+</div>
+<script>
+    function addToBasket(generatorId, generatorName, imageUrl, price, brand) {
+        var itemDetails = {
+            id: generatorId,
+            name: generatorName,
+            image: imageUrl,
+            price: price,
+            brand: brand
+        };
+
+        let basketItems = JSON.parse(localStorage.getItem('basket')) || [];
+
+        let existingItem = basketItems.find(item => item.id === generatorId);
+
+        if (!existingItem) {
+            basketItems.push(itemDetails);
+
+            localStorage.setItem('basket', JSON.stringify(basketItems));
+
+            console.log('Added to basket: ' + generatorName);
+
+            updateButton(generatorId);
+        }
+    }
+
+    function updateButton(generatorId) {
+        console.log(generatorId)
+        let button = document.getElementById('addToBasketButton-' + generatorId);
+        console.log(button)
+
+        if (button) {
+            button.innerText = 'In the Cart';
+            button.disabled = true;
+        }
+    }
+    </script>

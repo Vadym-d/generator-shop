@@ -139,7 +139,7 @@ namespace GeneratorShop.Controllers
 
                 if (result.Succeeded)
                 {
-                    return View("UserManagment", model); ; 
+                    return View("UserManagment", model); ;
                 }
                 else
                 {

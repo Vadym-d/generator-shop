@@ -1,73 +1,129 @@
 ﻿@model IEnumerable<Core.Entities.Generator>
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Main";
 }
 
-<div class="container">
-    <div class="row">
-        @foreach (var generator in Model)
-        {
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <img src="@generator.ImageUrl" class="card-img-top" alt="Generator Image">
-                    <div class="card-body">
-                        <h5 class="card-title">@generator.Name</h5>
-                        <p class="card-text">Id: @generator.Id</p>
-                        <p class="card-text">Ціна: $@generator.Price</p>
-                        <button id="addToBasketButton-@generator.Id" class="btn btn-primary"
-                                onclick="addToBasket('@generator.Id', '@generator.Name', '@generator.ImageUrl', @generator.Price, '@generator.GenratorCategory?.Category')">
-                            Додати в корзину
-                        </button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generator Shop</title>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <style>
+        .swiper-container {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .swiper-slide img {
+            width: 100%;
+            height: auto;
+        }
+
+        .swiper-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 100px;
+        }
+
+        .swiper-button-next,
+        .swiper-button-prev {
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .swiper-button-next {
+            right: 0;
+        }
+
+        .swiper-button-prev {
+            left: 0;
+        }
+
+        h2 {
+            margin-top: 100px;
+        }
+    </style>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+
+    <div class="header">
+        <h1>Вітаємо в Generator Shop</h1>
+        <p>
+            Мати вдома генератор є важливим забезпеченням надійного електропостачання у випадку аварій, перебоїв в електромережі, природних катастроф або на випадок блекауту. Переваги включають здатність забезпечити електроенергією основні побутові прилади, які необхідні для комфорту та безпеки. Генератори є незамінними під час надзвичайних ситуацій, таких як урагани, повені чи снігопади, коли може відсутність електропостачання. Вони також використовуються для забезпечення роботи важливих установок, таких як лікарні чи офіси. За наявності генератора, ви можете залишатися незалежними від зовнішніх факторів та забезпечувати безперебійне функціонування вашого дому чи бізнесу.
+        </p>
+
+
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="https://static.chicco.com.ua/content-image/6601e3cb9e8ce74689fc666efec6cdb4.png" alt="Image 1"></div>
+                <div class="swiper-slide"><img src="https://i1.poltava.to/uploads/2022/12/2022-12-31/new-year-2023.jpg" alt="Image 2"></div>
+                <div class="swiper-slide"><img src="https://rewards.com.ua/wp-content/uploads/2022/12/site-new-year-2023.png" alt="Image 3"></div>
+            </div>
+
+            <div class="swiper-buttons">
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </div>
+
+        <h2>Популярні виробники</h2>
+
+        <section class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <a href="@Url.Action("Goods", "Goods", new { searchText = "Konner&Sohnen" })">
+                            <img class="card-img-top" src="https://konstantinovka.com.ua/sites/default/files/styles/content_full_ww/public/image/content/2019/04/brend-generatorov-konnersohnen.jpg?itok=SFdNjJfD" alt="Konner&Sohnen">
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <a href="@Url.Action("Goods", "Goods", new { searchText = "Senci" })">
+                            <img class="card-img-top" src="https://storgom.ua/cache/i/brands/senci.1200x628.jpg" alt="Senci">
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <a href="@Url.Action("Goods", "Goods", new { searchText = "Genergy" })">
+                            <img class="card-img-top" src="https://img.hyperauto.ru/brands/g-energy.png" alt="Genergy">
+                        </a>
                     </div>
                 </div>
             </div>
-        }
-    </div>
-</div>
+        </section>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        let storedBasketItems = JSON.parse(localStorage.getItem('basket'));
-        console.log(storedBasketItems)
+        <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
-        if (storedBasketItems) {
-            storedBasketItems.forEach((generator)=> {
-                console.log(generator)
-                updateButton(generator.id);
+        <script>
+            var swiper = new Swiper('.swiper-container', {
+                slidesPerView: 1,
+                spaceBetween: 10,
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
             });
-        }
-    });
+        </script>
 
-    function addToBasket(generatorId, generatorName, imageUrl, price, brand) {
-        var itemDetails = {
-            id: generatorId,
-            name: generatorName,
-            image: imageUrl,
-            price: price,
-            brand: brand
-        };
 
-        let basketItems = JSON.parse(localStorage.getItem('basket')) || [];
-
-        let existingItem = basketItems.find(item => item.id === generatorId);
-
-        if (!existingItem) {
-            basketItems.push(itemDetails);
-
-            localStorage.setItem('basket', JSON.stringify(basketItems));
-
-            updateButton(generatorId);
-        }
-    }
-
-    function updateButton(generatorId) {
-        let button = document.getElementById('addToBasketButton-' + generatorId);
-        console.log(button)
-
-        if (button) {
-            button.innerText ='В корзині';
-            button.disabled = true; 
-        }
-    }
-</script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

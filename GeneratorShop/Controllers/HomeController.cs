@@ -31,7 +31,16 @@ namespace GeneratorShop.Controllers
         {
             return View();
         }
+        public IActionResult Goods()
+        {
+            var generators = _generatorRepository.GetAll();
+            return View(generators);
+        }
         public IActionResult Basket()
+        {
+            return View();
+        }
+        public IActionResult homepage()
         {
             return View();
         }

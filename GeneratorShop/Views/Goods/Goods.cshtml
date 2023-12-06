@@ -1,0 +1,185 @@
+﻿@model IEnumerable<Core.Entities.Generator>
+
+
+@{
+    ViewData["Title"] = "Товари";
+}
+<div class="container">
+    <div class="row">
+
+<div class="col-md-3 filter-container">
+    <form method="get" action="@Url.Action("Goods", "Goods")">
+        <div class="form-group">
+            <label for="minPrice">Min Price:</label>
+            <input type="number" class="form-control" name="minPrice" value="@ViewBag.MinPrice" />
+        </div>
+
+        <div class="form-group">
+            <label for="maxPrice">Max Price:</label>
+            <input type="number" class="form-control" name="maxPrice" value="@ViewBag.MaxPrice" />
+        </div>
+
+                <input type="submit" value="Filter" />
+                
+                <hr class="my-2">
+                <div class="form-group">
+                    <label>Filter by Power:</label>
+                    @foreach (var power in ViewBag.UniquePowers)
+                    {
+                        <button type="button" class="btn btn-info" onclick="categoryFilter('Power', '@power')">@power</button>
+                    }
+                </div>
+                <hr class="my-2">
+
+                <div class="form-group">
+                    <label>Filter by Power Output:</label>
+                    @foreach (var powerOutput in ViewBag.UniquePowerOutputs)
+                    {
+                        <button type="button" class="btn btn-info" onclick="categoryFilter('PowerOutput', '@powerOutput')">@powerOutput</button>
+                    }
+                </div>
+                <hr class="my-2">
+
+                <div class="form-group">
+                    <label>Filter by Fuel Consuming:</label>
+                    @foreach (var fuelConsuming in ViewBag.UniqueFuelConsumings)
+                    {
+                        <button type="button" class="btn btn-info" onclick="categoryFilter('FuelConsuming', '@fuelConsuming')">@fuelConsuming</button>
+                    }
+                </div>
+                <hr class="my-2">
+                <div class="form-group">
+                    <label>Filter by Tank:</label>
+                    @foreach (var tank in ViewBag.UniqueTanks)
+                    {
+                        <button type="button" class="btn btn-info" onclick="categoryFilter('Tank', '@tank')">@tank</button>
+                    }
+                </div>
+                <hr class="my-2">
+                <div class="form-group">
+                    <label>Filter by Weight:</label>
+                    @foreach (var weight in ViewBag.UniqueWeights)
+                    {
+                        <button type="button" class="btn btn-info" onclick="categoryFilter('Weight', '@weight')">@weight</button>
+                    }
+                </div>
+
+            </form>
+        </div>
+
+        <div class="col-md-9">
+            <div class="row">
+                @foreach (var generator in Model)
+                {
+                    <div class="col-md-4 mb-4">
+                        <div class="card" data-Power="@generator.Power" data-PowerOutput="@generator.PowerOutput" data-FuelConsuming="@generator.FuelConsuming" data-tank="@generator.Tank" data-weight="@generator.Weight" >
+                            <img src="@generator.ImageUrl" class="card-img-top" alt="Generator Image">
+                            <div class="card-body">
+                                <h5 class="card-title">@generator.Name</h5>
+                                <p class="card-text">Id: @generator.Id</p>
+                                <p class="card-text">Price: $@generator.Price</p>
+                                <button id="addToBasketButton-@generator.Id" class="btn btn-primary"
+                                        onclick="addToBasket('@generator.Id', '@generator.Name', '@generator.ImageUrl', @generator.Price, '@generator.GenratorCategory?.Category')">
+                                    Додати в корзину
+                                </button>
+                                <button class="btn btn-primary" onclick="redirectToProductDetails('@generator.Id')">
+                                    View Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function filterProducts() {
+        var category = document.getElementById('categoryFilter').value;
+
+
+        fetch(`/Goods/Goods?category=${category}`)
+            .then(response => response.json())
+            .then(data => {
+
+                updatePageContent(data);
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function updatePageContent(data) {
+
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        let storedBasketItems = JSON.parse(localStorage.getItem('basket'));
+        console.log(storedBasketItems)
+
+        if (storedBasketItems) {
+            storedBasketItems.forEach((generator) => {
+                console.log(generator)
+                updateButton(generator.id);
+            });
+        }
+    });
+
+    function addToBasket(generatorId, generatorName, imageUrl, price, brand) {
+        var itemDetails = {
+            id: generatorId,
+            name: generatorName,
+            image: imageUrl,
+            price: price,
+            brand: brand
+        };
+
+        let basketItems = JSON.parse(localStorage.getItem('basket')) || [];
+
+        let existingItem = basketItems.find(item => item.id === generatorId);
+
+        if (!existingItem) {
+            basketItems.push(itemDetails);
+
+            localStorage.setItem('basket', JSON.stringify(basketItems));
+
+            console.log('Added to basket: ' + generatorName);
+
+            updateButton(generatorId);
+        }
+    }
+
+    function updateButton(generatorId) {
+        console.log(generatorId)
+        let button = document.getElementById('addToBasketButton-' + generatorId);
+        console.log(button)
+
+        if (button) {
+            button.innerText = 'In the Cart';
+            button.disabled = true;
+        }
+    }
+    function redirectToProductDetails(generatorId) {
+
+        var url = '@Url.Action("ProductDetails", "Goods")/' + generatorId;
+
+
+        window.location.href = url;
+    }
+
+
+    function categoryFilter(attribute, value) {
+        var cards = document.getElementsByClassName('card');
+
+        for (var i = 0; i < cards.length; i++) {
+            var card = cards[i];
+            var generatorAttributeValue = card.getAttribute('data-' + attribute);
+
+            if (generatorAttributeValue === value) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        }
+    }
+
+</script>

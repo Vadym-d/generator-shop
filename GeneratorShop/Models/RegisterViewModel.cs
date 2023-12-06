@@ -4,19 +4,18 @@ namespace GeneratorShop.Models
 {
     public class RegisterViewModel
     {
-        [Required(ErrorMessage = "Пошта обов'язкова!")]
-        [EmailAddress(ErrorMessage = "Не правильнгий формат адреси")]
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Invalid email address")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Пароль обов'язковий!")]
-        [MinLength(8, ErrorMessage = "Пароль не може бути менший за 8 символів!")]
+        [Required(ErrorMessage = "Password is required")]
+        [MinLength(6, ErrorMessage = "Password must be at least 6 characters")]
         public string Password { get; set; }
 
-        [Compare("Password", ErrorMessage = "Паролі не співпадають!")]
+        [Compare("Password", ErrorMessage = "Passwords do not match")]
         public string ConfirmedPassword { get; set; }
-        [Required(ErrorMessage = "Телефон обов'язковий!")]
 
-        [Phone(ErrorMessage = "Не правильний формат телефону")]
+        [Phone(ErrorMessage = "Invalid phone number")]
         public string Phone { get; set; }
         public string ReturnUrl { get; set; }
     }
