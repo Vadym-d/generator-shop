@@ -47,9 +47,7 @@ namespace GeneratorShop
             }).AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 
             services.AddTransient<IGeneratorRepository, GeneratorRepository>();
-            services.AddTransient<IOrderRepository, OrderRepository>();
-            services.AddTransient<IOrderDetailsRepository, OrderDetailsRepository>();
-            services.AddTransient<IOrderStatusRepository, OrderStatusRepository>();
+            services.AddTransient<IGeneratorCategoryRepository, GeneratorCategoryRepository>();
 
             services.AddAutoMapper(typeof(Startup), typeof(MapperConfig));
         }

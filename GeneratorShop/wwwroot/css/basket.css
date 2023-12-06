@@ -4,31 +4,3 @@
         max-width: max-content;
     }
 }
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-.empty-cart-message {
-    display:none;
-    text-align: center;
-    padding: 20px;
-    background-color: #f8f9fa;
-    border: 1px solid #dee2e6;
-    border-radius: 10px;
-    margin: 20px 0;
-    height: 800px;
-}
-
-    .empty-cart-message img {
-        margin-top: 20%;
-        max-width: 500px;
-        margin-bottom: 20px;
-    }
-
-    .empty-cart-message h1 {
-        font-size: 24px;
-        color: #495057;
-    }
